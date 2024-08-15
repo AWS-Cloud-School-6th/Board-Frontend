@@ -1,5 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const loginUrl = `${process.env.REACT_APP_API_URL}/login`;
 
 export function Login() {
   const [id, setId] = useState("");
@@ -9,15 +12,21 @@ export function Login() {
     username: id,
     password: password,
   };
+  const navigate = useNavigate();
 
   const login = (user: User) => {
     axios
-      .post(`${process.env.REACT_APP_API_BASE_URL}/login`, {
-        username: user.username,
-        password: user.password,
-      })
+      .post(
+        loginUrl,
+        {
+          username: user.username,
+          password: user.password,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log("성공");
+        navigate("/board");
       })
       .catch((err) => {
         console.log(err);
@@ -35,6 +44,7 @@ export function Login() {
       />
       password
       <input
+        type="password"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);

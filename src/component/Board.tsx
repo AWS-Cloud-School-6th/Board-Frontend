@@ -41,6 +41,8 @@ interface ApiResponse {
   empty: boolean;
 }
 
+const url = `${process.env.REACT_APP_API_URL}/questions/?kw=&page=0`;
+
 export function Board() {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,9 +51,7 @@ export function Board() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<ApiResponse>(
-          `${process.env.REACT_APP_API_BASE_URL}/questions/?kw=&page=0`
-        );
+        const response = await axios.get<ApiResponse>(url);
         setData(response.data);
       } catch (err) {
         setError("Failed to fetch data");
